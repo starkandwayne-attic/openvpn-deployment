@@ -1,0 +1,22 @@
+---
+meta:
+  availability_zone: (( param "What availability zone should your openvpn VMs be in?" ))
+resource_pools:
+  - name: openvpn
+    network: openvpn
+    stemcell: (( grab meta.stemcell ))
+    cloud_properties:
+      instance_type: m3.medium
+      availability_zone: (( grab meta.availability_zone ))
+
+compilation:
+  workers: 3
+  network: openvpn
+  reuse_compilation_vms: true
+  cloud_properties:
+    instance_type: c4.large
+    availability_zone: (( grab meta.availability_zone ))
+
+jobs:
+  - name: openvpn
+    resource_pool: openvpn

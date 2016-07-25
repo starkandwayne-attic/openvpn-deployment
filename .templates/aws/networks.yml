@@ -1,0 +1,11 @@
+---
+networks:
+- name: openvpn
+  type: manual
+  subnets: (( param "Specify your openvpn subnet" ))
+
+jobs:
+- name: openvpn
+  networks:
+  - name: openvpn
+    static_ips: (( static_ips 0 ))
