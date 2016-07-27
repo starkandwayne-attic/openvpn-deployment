@@ -1,14 +1,12 @@
 ---
-jobs:
-- name: openvpn
-  templates:
-  - name: openvpn
-    release: openvpn
-  - name: toolbelt-quick
-    release: toolbelt
-  - name: toolbelt
-    release: toolbelt
-  instances: 1
-  resource_pool: (( param "Specify the resource pool for the jump box" ))
-  persistent_disk: 10240
-  networks: (( param "Specify the network definitions for the jump box" ))
+meta:
+  jobs:
+    openvpn:
+      templates:
+      - name: openvpn
+        release: openvpn
+      - name: toolbelt-quick
+        release: toolbelt
+      - name: toolbelt
+        release: toolbelt
+      instances: 1

@@ -1,2 +1,26 @@
 ---
-properties: {}
+meta:
+  client_pool:
+    net:  172.31.255.0
+    mask: 255.255.255.0
+  client_routes: (( param "What networks should be advertised to clients over the VPN? (format NET_ADDR MASK)"
+  certs:
+    ca:  (( param "What is the CA cert used to sign the server/client certs?" ))
+    crl: (( param "Provide the current CRL pem listing what certs have been revoked by the CA" ))
+    dh: (( param "What are the DH params for OpenVPN to use (pem format)?"
+    server: (( param "Provide the cert to be used by the OpenVPN server" ))
+    server_key: (( param "Provide the private key used by the OpenVPN server for its certificate" ))
+
+properties:
+  openvpn:
+    port: 443
+    ca_crt:  (( grab meta.certs.ca ))
+    crl_pem: (( grab meta.certs.crl ))
+    dh_pem:  (( grab meta.certs.dh ))
+    server: (( concat meta.client_pool.net " " meta.client_pool.mask ))
+    server_crt: (( grab meta.certs.server ))
+    server_key: (( grab meta.certs.server_key ))
+
+    iptables:
+    - (( concat "POSTROUTING -t nat -s " meta.client_pool.net "/" meta.client_pool.mask " -j MASQUERADE" ))
+    push_routes: (( grab meta.client_routes ))

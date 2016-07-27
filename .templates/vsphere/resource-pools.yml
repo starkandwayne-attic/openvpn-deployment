@@ -1,16 +1,36 @@
 ---
+meta:
+  vcenter:
+    clusters:
+      z1: (( param "Define the cluster/resource pool config for z1" ))
+      z2: (( param "Define the cluster/resource pool config for z2" ))
+
 resource_pools:
-  - name: openvpn
-    network: openvpn
+  - name: openvpn_z1
+    network: openvpn_z1
     stemcell: (( grab meta.stemcell ))
     cloud_properties:
-      ram: 3840
+      ram: 1024
       disk: 4096
       cpu: 2
+      datacenters:
+      - clusters:
+        - (( grab meta.vcenter.clusters.z1 ))
+
+  - name: openvpn_z2
+    network: openvpn_z2
+    stemcell: (( grab meta.stemcell ))
+    cloud_properties:
+      ram: 1024
+      disk: 4096
+      cpu: 2
+      datacenters:
+      - clusters:
+        - (( grab meta.vcenter.clusters.z2 ))
 
 compilation:
   workers: 3
-  network: openvpn
+  network: openvpn_z1
   reuse_compilation_vms: true
   cloud_properties:
     cpu: 2
@@ -19,5 +39,7 @@ compilation:
 
 
 jobs:
-  - name: openvpn
-    resource_pool: openvpn
+  - name: openvpn_z1
+    resource_pool: openvpn_z1
+  - name: openvpn_z2
+    resource_pool: openvpn_z2

@@ -1,1 +1,6 @@
---- {}
+---
+jobs:
+  - name: openvpn_z1
+    .: (( inject meta.jobs.openvpn ))
+  - name: openvpn_z2
+    .: (( inject meta.jobs.openvpn ))
