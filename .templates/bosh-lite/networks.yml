@@ -1,0 +1,15 @@
+---
+networks:
+- name: openvpn
+  type: manual
+  subnets:
+  - range: 10.244.9.0/24
+    gateway: 10.244.9.1
+    static:
+    - 10.244.9.2 - 10.244.9.60
+
+jobs:
+- name: openvpn
+  networks:
+  - name: openvpn
+    static_ips: (( static_ips 0, 1, 2, 3, 5 ))

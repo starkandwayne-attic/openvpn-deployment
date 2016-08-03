@@ -1,0 +1,4 @@
+---
+jobs:
+  - name: openvpn
+    .: (( inject meta.jobs.openvpn ))
